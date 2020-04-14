@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from forms import *
 app = Flask(__name__)
 
@@ -22,7 +22,14 @@ def makequiz():
 def takequiz():
     return render_template('takequiz.html', title='Take a Quiz')
     
-@app.route("/questiontypes")
+@app.route("/questiontypes", methods=['GET', 'POST'])
 def questiontypes():
     form = QuestionTypesForm()
+    if form.is_submitted():
+        result = request.form
+        return render_template('createquiz.html', title='Create Quiz', result=result)
     return render_template('questiontypes.html', title='Begin Building Your Quiz', form=form)
+    
+    
+    
+    

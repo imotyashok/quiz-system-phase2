@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="row">
+	<div class="col-md-3 "></div>
+	<div class="col-md-6">
+		<h1 class="text-center"> Choose How Many Questions You Want </h1>
+		<form action="" method="post">
+			<p class="text-center"> 
+				{{ form.multiple_choice.label }} <br>
+				{{ form.multiple_choice(size=30) }}
+			</p>
+			<p class="text-center"> 
+				{{ form.true_false.label }} <br>
+				{{ form.true_false(size=30) }}
+			</p>
+			<p class="text-center"> 
+				{{ form.matching.label }} <br>
+				{{ form.matching(size=30) }}
+			</p>
+			<p class="text-center" > {{ form.submit() }} </p>
+		</form>
+	</div>
+
+{% endblock content %}
