@@ -1,24 +1,47 @@
 {% extends "layout.html" %}
 {% block content %}
-
 <div class="row">
     <div class="col-md-3 "></div>
     <div class="col-md-6">
-        <h1 class="text-center"> {{ title}} </h1> 
-        <hr>
+
         <div>
-            <h2 class="text-center"><small>Multiple choice questions: {{ result['multiple_choice'] }} </small></h2>
-            <h2 class="text-center"><small>True false questions: {{ result['true_false'] }} </small></h2>
-            <h2 class="text-center"><small>Matching questions: {{ result['matching'] }} </small></h2>
+            <h4>Multiple Choice Questions:</h4> 
+            <br>
+            {% for q in range(mc_num) %}  
+               
+                {{ form.mc.question.label }}
+                {{ form.mc.question }}
+                
+                <br>
+                {{ form.mc.c1.label }}
+                {{ form.mc.c1 }}
+                <br>
+                {{ form.mc.c2.label }}
+                {{ form.mc.c2 }}
+                <br>
+                {{ form.mc.c3.label }}
+                {{ form.mc.c3 }}
+                <br>
+                {{ form.mc.c4.label }}
+                {{ form.mc.c4 }}
+
+                <hr>
+            {% endfor %}  
+
+            <h4>True False Questions:</h4>  
+            <!-- TO-DO: Fill this out using similar format to mult choice questions -->
+
+            <h4>Matching Questions:</h4>  
+            <!-- TO-DO: Fill this out using similar format to mult choice questions -->
+
+            <br>
+            
+            <div class="text-center"> {{ form.submit }} </div>
+            
+            <hr>
+
         </div>
 
-        <hr> 
-        <br>
-
-        <button type="button" class="btn btn-primary btn-lg btn-block"
-                style="background-color: rgb(128, 36, 114)" onclick="window.location.href = 'home';">
-            Go Back
-        </button>
     </div>
 
 {% endblock content %}
