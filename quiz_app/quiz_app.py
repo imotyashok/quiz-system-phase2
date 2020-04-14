@@ -1,5 +1,8 @@
 from flask import Flask, render_template
+from forms import *
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] = '77a2c153f819019e8657ceea0848de0d'
 
 @app.route("/")
 @app.route("/home")
@@ -18,3 +21,8 @@ def makequiz():
 @app.route("/takequiz")
 def takequiz():
     return render_template('takequiz.html', title='Take a Quiz')
+    
+@app.route("/questiontypes")
+def questiontypes():
+    form = QuestionTypesForm()
+    return render_template('questiontypes.html', title='Begin Building Your Quiz', form=form)
