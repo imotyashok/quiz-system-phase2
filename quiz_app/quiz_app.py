@@ -27,7 +27,7 @@ def questiontypes():
     form = QuestionTypesForm()
     if form.is_submitted():
         result = request.form
-        return render_template('createquiz.html', title='Create Quiz', result=result)
+        return render_template('createquiz.html', title='Create Quiz Results', result=result)
     return render_template('questiontypes.html', title='Begin Building Your Quiz', form=form)
     
     
