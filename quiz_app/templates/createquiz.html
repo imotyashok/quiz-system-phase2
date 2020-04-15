@@ -3,45 +3,70 @@
 <div class="row">
     <div class="col-md-3 "></div>
     <div class="col-md-6">
+        <form method="POST" action="">
+            <fieldset class="form-group">
+                <h2 class="text-center">Multiple Choice Questions</h2> 
+                <br>
+                <div class="form-group">
+                    {% for q in range(mc_num) %}  
+                    
+                        <h4> Question {{ q+1 }} </h4>
 
-        <div>
-            <h4>Multiple Choice Questions:</h4> 
-            <br>
-            {% for q in range(mc_num) %}  
-               
-                {{ form.mc.question.label }}
-                {{ form.mc.question }}
+                        {{ form.mc.question.label(class="form-control-label") }}
+                        {{ form.mc.question(class="form-control form-control-lg") }}
+                        
+                        <br>
+                        {{ form.mc.c1.label(class="form-control-label") }}
+                        {{ form.mc.c1(class="form-control form-control-lg") }}
+                        <br>
+                        {{ form.mc.c2.label(class="form-control-label") }}
+                        {{ form.mc.c2(class="form-control form-control-lg") }}
+                        <br>
+                        {{ form.mc.c3.label(class="form-control-label") }}
+                        {{ form.mc.c3(class="form-control form-control-lg") }}
+                        <br>
+                        {{ form.mc.c4.label(class="form-control-label") }}
+                        {{ form.mc.c4(class="form-control form-control-lg") }}
+                        <br>
+                        {{ form.mc.answer.label(class="form-control-label") }}
+                        {{ form.mc.answer(class="form-control form-control-lg") }}
+                        <br>
+                        <hr>
+                    {% endfor %} 
+                </div> 
+
+                <h2 class="text-center">True False Questions</h2>  
+                <br>
+                <div class="form-group">
+                    {% for q in range(tf_num) %}
+
+                        <h4> Question {{ q+1 }} </h4>
+
+                        {{ form.tf.question.label(class="form-control-label") }}
+                        {{ form.tf.question(class="form-control form-control-lg") }}
+                        <br>
+                        {{ form.tf.answer.label(class="form-control-label") }}
+                        {{ form.tf.answer(class="form-control form-control-lg") }}
+
+                        <hr>
+                    {% endfor %} 
+                </div>
+                <br>
+                <h2 class="text-center">Matching Questions</h2>  
+                    <!-- TO-DO: Fill this out using similar format to previous questions -->
+                <div class="form-group">
+
                 
+                </div>
                 <br>
-                {{ form.mc.c1.label }}
-                {{ form.mc.c1 }}
-                <br>
-                {{ form.mc.c2.label }}
-                {{ form.mc.c2 }}
-                <br>
-                {{ form.mc.c3.label }}
-                {{ form.mc.c3 }}
-                <br>
-                {{ form.mc.c4.label }}
-                {{ form.mc.c4 }}
-
-                <hr>
-            {% endfor %}  
-
-            <h4>True False Questions:</h4>  
-            <!-- TO-DO: Fill this out using similar format to mult choice questions -->
-
-            <h4>Matching Questions:</h4>  
-            <!-- TO-DO: Fill this out using similar format to mult choice questions -->
-
-            <br>
             
             <div class="text-center"> {{ form.submit }} </div>
             
             <hr>
 
-        </div>
-
+        </fieldset>
+        
+        </form>
     </div>
 
 {% endblock content %}

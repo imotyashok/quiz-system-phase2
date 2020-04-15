@@ -14,8 +14,8 @@ _NOTE:_ depending on how you installed Python on your machine, you might have to
 
 ## Development Notes
 1. This project uses Flask and Python, so in order to work on the development of it, you need to have the following requirements met:
-- Make sure you have Python 3 and an IDE to work in (the installation comes with IDLE, but if you want something a little more advanced I recommend PyCharm)
-- You'll need to get Flask; to do this, simply run the command ```pip install Flask``` in terminal
+    - Make sure you have Python 3 and an IDE to work in (the installation comes with IDLE, but if you want something a little more advanced I recommend PyCharm)
+    - You'll need to get Flask; to do this, simply run the command ```pip install Flask``` in terminal
 
 2. Whenever you're making a new page for the website, you have to add that page into the "routes.py" file by creating a new route for it:
     ```
