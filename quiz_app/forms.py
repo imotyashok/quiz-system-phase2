@@ -9,7 +9,7 @@ class QuestionTypesForm(FlaskForm):
     
     true_false = IntegerField("True False:")
     
-    fill_in_blank = IntegerField("Matching:")
+    fill_in_blank = IntegerField("Fill in the Blank:")
     
     submit = SubmitField("Submit")
     
