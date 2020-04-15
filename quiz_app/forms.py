@@ -9,7 +9,7 @@ class QuestionTypesForm(FlaskForm):
     
     true_false = IntegerField("True False:")
     
-    matching = IntegerField("Matching:")
+    fill_in_blank = IntegerField("Matching:")
     
     submit = SubmitField("Submit")
     
@@ -18,29 +18,30 @@ class MultipleChoiceForm(FlaskForm):
     # TO-DO (maybe): allow user to dynamically select how many choices they want rather than hard-code 4 choices 
 
     question = StringField("Enter your question here:")
-    c1 = StringField("Enter Choice 1 value:")
-    c2 = StringField("Enter Choice 2 value:")
-    c3 = StringField("Enter Choice 3 value:")
-    c4 = StringField("Enter Choice 4 value:")
-   # answer = SelectField('Correct answer:', choices=[c1,c2,c3,c4]) 
+    c1 = StringField("Option A:")
+    c2 = StringField("Option B:")
+    c3 = StringField("Option C:")
+    c4 = StringField("Option D:")
+    answer = SelectField('Correct answer:', choices=[("a", "A"),("b","B"),("c","C"),("d","D")]) 
    # ... figure out how to make a dropdown for this part 
-    answer = StringField("Correct answer:")
+    # answer = StringField("Correct answer:")
 
 class TrueFalseForm(FlaskForm):
     # TO-DO: implement creation of true false questions 
     question = StringField("Enter your question here:")
     answer = SelectField("Correct answer:", choices=[("t","True"), ("f","False")])
 
-class MatchingForm(FlaskForm):
+class FillInBlankForm(FlaskForm):
     # TO-DO: implement creation of matching questions 
-    pass
+    question = StringField("Enter your question here:")
+    answer = StringField("Enter the correct answer:")
 
 class QuizBuilderForm(FlaskForm):
     # Puts all the question types forms together
 
     mc = FormField(MultipleChoiceForm)
     tf = FormField(TrueFalseForm)
-    match = FormField(MatchingForm) 
+    fib = FormField(FillInBlankForm) 
 
     submit = SubmitField("Save Quiz")
 

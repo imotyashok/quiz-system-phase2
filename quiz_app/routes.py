@@ -46,7 +46,7 @@ def createquiz(result):
     # Getting the number of each question that the user wanted  
     mc_num = int(result['multiple_choice'])
     tf_num = int(result['true_false'])
-    match_num = int(result['matching'])
+    fib_num = int(result['fill_in_blank'])
 
     form = QuizBuilderForm()
         # TO-DO: figure out what needs to be done once the final form gets submitted  
@@ -59,7 +59,7 @@ def createquiz(result):
     #           ex. To access the "question" field of the MultipleChoiceForm, you'd do 'form.mc.question' 
 
     return render_template('createquiz.html', title='Create Quiz Results', form=form, 
-                            mc_num=mc_num, tf_num=tf_num, match_num=match_num)
+                            mc_num=mc_num, tf_num=tf_num, fib_num=fib_num)
     
     
     

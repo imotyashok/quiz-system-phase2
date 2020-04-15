@@ -52,10 +52,21 @@
                     {% endfor %} 
                 </div>
                 <br>
-                <h2 class="text-center">Matching Questions</h2>  
+                <h2 class="text-center">Fill In The Blank Questions</h2>  
                     <!-- TO-DO: Fill this out using similar format to previous questions -->
                 <div class="form-group">
+                        {% for q in range(fib_num) %}
 
+                        <h4> Question {{ q+1 }} </h4>
+
+                        {{ form.fib.question.label(class="form-control-label") }}
+                        {{ form.fib.question(class="form-control form-control-lg") }}
+                        <br>
+                        {{ form.fib.answer.label(class="form-control-label") }}
+                        {{ form.fib.answer(class="form-control form-control-lg") }}
+
+                        <hr>
+                    {% endfor %} 
                 
                 </div>
                 <br>
