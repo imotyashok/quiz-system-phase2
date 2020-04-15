@@ -21,11 +21,15 @@ class MultipleChoiceForm(FlaskForm):
     c1 = StringField("Enter Choice 1 value:")
     c2 = StringField("Enter Choice 2 value:")
     c3 = StringField("Enter Choice 3 value:")
-    c4 = StringField("Enter Choice 2 value:")
+    c4 = StringField("Enter Choice 4 value:")
+   # answer = SelectField('Correct answer:', choices=[c1,c2,c3,c4]) 
+   # ... figure out how to make a dropdown for this part 
+    answer = StringField("Correct answer:")
 
 class TrueFalseForm(FlaskForm):
     # TO-DO: implement creation of true false questions 
-    pass
+    question = StringField("Enter your question here:")
+    answer = SelectField("Correct answer:", choices=[("t","True"), ("f","False")])
 
 class MatchingForm(FlaskForm):
     # TO-DO: implement creation of matching questions 
