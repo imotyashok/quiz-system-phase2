@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import render_template, request, redirect, url_for
 from quiz_app import app
 from quiz_app.forms import *
 
@@ -30,29 +30,33 @@ def questiontypes():
         # Get the results of the form; these are stored as a dictionary, with the key
         # being the variable name of each field on our form (ex. for this one, the keys
         # would be 'multiple_choice', 'true_false', 'matching', and 'submit') and the 
-        # values being the actual values the user inputs for those fields 
+        # values being the actual number values the user inputs for those fields 
         result = request.form
 
-        # Now we pass the dictionary of form questions/answers to the createquiz page
-        return createquiz(result)    
+        # Extracting the values the user submitted in the form 
+        mc_num = result['multiple_choice']
+        tf_num = result['true_false']
+        fib_num = result['fill_in_blank']
 
+        # Now we pass the numbers of question types the user entered to the createquiz page
+        return redirect(url_for("createquiz", mc_num=mc_num, tf_num=tf_num, fib_num=fib_num))   
+        
     return render_template('questiontypes.html', title='Begin Building Your Quiz', form=form)
 
-@app.route("/createquiz", methods=['GET', 'POST']) 
-def createquiz(result):
-    # Now we can use the dictionary of how many questions of each type the person wants in order to 
+@app.route("/createquiz/<mc_num>_<tf_num>_<fib_num>", methods=['GET', 'POST']) 
+def createquiz(mc_num, tf_num, fib_num):
+    # Now we can use the number of each question type the user wanted in order to 
     # generate the form that actually lets them build the quiz 
 
-    # Getting the number of each question that the user wanted  
-    mc_num = int(result['multiple_choice'])
-    tf_num = int(result['true_false'])
-    fib_num = int(result['fill_in_blank'])
-
-    form = QuizBuilderForm()
-        # TO-DO: figure out what needs to be done once the final form gets submitted  
-        # if form.is_submitted():
-        #    do stuff... 
-
+    # Converting these numbers to integer type: 
+    mc_num, tf_num, fib_num = int(mc_num), int(tf_num), int(fib_num)
+    
+    form = QuizBuilderForm() # Generating the actual quiz building form 
+    # TO-DO: figure out what needs to be done once the final form gets submitted  
+    if form.is_submitted():
+        #    do stuff...
+        return redirect(url_for('home')) # redirect to home for now lol
+        
     # NOTE: form.mc accesses the MultipleChoiceForm, form.tf accesses the TrueFalseForm, and 
     #       form.match accesses MatchingForm; to access individual fields from each form in your HTML, just 
     #       add another method call;
