@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, send_file
+from flask import render_template, request, redirect, url_for, send_file, send_from_directory, Response 
 from quiz_app import app
 from quiz_app.forms import *
 
@@ -102,7 +102,7 @@ def create_file(form):
     # TODO: implement a function that takes this q_dict and downloads this file to the user's computer
     # in some sort of format (CSV?)
 
-    with open("quiz_app/quiz.csv", mode="w", newline='') as quiz_file:
+    with open("quiz_app/static/quiz.csv", mode="w", newline='') as quiz_file:
 
         print("writing csv file")
 
@@ -120,8 +120,25 @@ def create_file(form):
             for q in range(len(fib_q_list)):
                 quiz_writer.writerow(["fib_q%d"%(q+1), fib_q_list[q], fib_ans_list[q]])
         
-       # curr_time = datetime.now().strftime("%c")    
-       # return send_file("quiz.csv", attachment_filename="quiz_%s.csv"%(curr_time))
+        #curr_time = datetime.now().strftime("%c")    
+        #return send_file(quiz_file, mimetype="text/csv", attachment_filename="quiz_%s.csv"%(curr_time))
 
-    return redirect(url_for('home'))
+    return redirect(url_for('download_quiz'))
+   # return redirect(url_for('home'))
+
+@app.route("/download_quiz")
+def download_quiz():
+    return render_template('download_quiz.html')
+
+@app.route("/return_file")
+def return_file():
+    #csv_f = open('static/quiz.csv', 'r')
+    #returnfile = csv_f.read().encode('latin-1')
+    #csv_f.close()
+
+    #return Response(returnfile, mimetype="text/csv", headers={"Content-disposition":"attachment; filename=quiz_test.csv"})
+
+    return send_file('static/quiz.csv', mimetype='text/csv', attachment_filename='quiz_04152020.csv')
+    
+    # return send_from_directory('C:/Users/iryna/quiz-system-phase2/quiz_app/static/flower_branch.png', 'branch.png', as_attachment=True, cache_timeout=0)
     
