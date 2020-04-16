@@ -1,6 +1,10 @@
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, send_file
 from quiz_app import app
 from quiz_app.forms import *
+
+from datetime import datetime
+import csv
+
 
 @app.route("/")
 @app.route("/home")
@@ -55,52 +59,11 @@ def createquiz(mc_num, tf_num, fib_num):
     # TO-DO: figure out what needs to be done once the final form gets submitted  
     if form.is_submitted():
         #    do stuff...
-        result = request.form
 
-        # NOTE: The results are stored in a dictionary that follows this format:
-        # print(result) --> 
-        # ImmutableMultiDict([('mc-question', 'What color is a banana?'), ('mc-c1', 'Purple'), 
-        #                      ('mc-c2', 'Green'), ('mc-c3', 'Yellow'), ('mc-c4', 'Red'), 
-        #                      ('mc-answer', 'c'), ('tf-question', 'Computer mice are mammals. '), 
-        #                      ('tf-answer', 'f'), ('fib-question', 'The best OS is'), 
-        #                      ('fib-answer', 'Linux'), ('submit', 'Save Quiz')])
-        #
-        # Some problems with questions of the same type... ex:
-        # ImmutableMultiDict([('tf-question', 'Computer mice are mammals. '), 
-        #                     ('tf-question', 'Python is both a programming language and a snake'), 
-        #                     ('tf-question', 'Some flowers are yellow. '), ('tf-answer', 'f'), 
-        #                     ('tf-answer', 't'), ('tf-answer', 't'), ('submit', 'Save Quiz')])
+        return create_file(form)
 
-        mc_q_list = request.form.getlist('mc-question')
-        mc_c1_list = request.form.getlist('mc-c1')
-        mc_c2_list = request.form.getlist('mc-c2') 
-        mc_c3_list = request.form.getlist('mc-c3') 
-        mc_c4_list = request.form.getlist('mc-c4')
-        mc_ans_list = request.form.getlist('mc-answer') 
+       # return redirect(url_for('home')) # redirect to home for now lol
 
-        tf_q_list =  request.form.getlist('tf-question')
-        tf_ans_list = request.form.getlist('tf-answer')
-
-        fib_q_list = request.form.getlist('fib-question')
-        fib_ans_list = request.form.getlist('fib-answer')
-
-        if mc_q_list:
-            for q in range(len(mc_q_list)):
-                print("Question %d:" %(q+1))
-                print(mc_q_list[q], mc_c1_list[q], mc_c2_list[q], mc_c3_list[q], mc_c4_list[q], mc_ans_list[q])
-            print("\n")
-        if tf_q_list:
-            for q in range(len(tf_q_list)):
-                print("Question %d:" %(q+1))
-                print(tf_q_list[q], tf_ans_list[q])
-            print("\n")
-        if fib_q_list:
-            for q in range(len(fib_q_list)):
-                print("Question %d:" %(q+1))
-                print(fib_q_list[q], fib_ans_list[q])
-            print("\n")
-
-        return redirect(url_for('home')) # redirect to home for now lol
         
     # NOTE: form.mc accesses the MultipleChoiceForm, form.tf accesses the TrueFalseForm, and 
     #       form.match accesses MatchingForm; to access individual fields from each form in your HTML, just 
@@ -110,5 +73,55 @@ def createquiz(mc_num, tf_num, fib_num):
     return render_template('createquiz.html', title='Create Quiz Results', form=form, 
                             mc_num=mc_num, tf_num=tf_num, fib_num=fib_num)
     
-    
+def create_file(form):
+    mc_q_list = request.form.getlist('mc-question')
+    mc_c1_list = request.form.getlist('mc-c1')
+    mc_c2_list = request.form.getlist('mc-c2') 
+    mc_c3_list = request.form.getlist('mc-c3') 
+    mc_c4_list = request.form.getlist('mc-c4')
+    mc_ans_list = request.form.getlist('mc-answer') 
+
+    tf_q_list =  request.form.getlist('tf-question')
+    tf_ans_list = request.form.getlist('tf-answer')
+
+    fib_q_list = request.form.getlist('fib-question')
+    fib_ans_list = request.form.getlist('fib-answer')
+
+    q_dict = dict()
+
+    # NOTE: 'q_dict' is a dictionary of questions that follows the following format:
+        #    question-type_question-number : ('question', 'option1', 'option2', 'answer')
+
+        # Here is an example of an output from the form: 
+        # { 'mc_q1': ('What color is a banana?', 'Purple', 'Green', 'Yellow', 'Red', 'c'), 
+        #   'mc_q2': ('How many hands does a human have?', '0', '2', '3', '4', 'b'), 
+        #   'tf_q1': ('Computer mice are mammals. ', 'f'), 'tf_q2': ('Water is a liquid. ', 't'), 
+        #   'fib_q1': ('The best OS is', 'Linux'), 'fib_q2': ('My name is ', 'Slim Shady')}
+        # I'm not even sure this dictionary will be useful yet, but hey, it exists! 
+
+    # TODO: implement a function that takes this q_dict and downloads this file to the user's computer
+    # in some sort of format (CSV?)
+
+    with open("quiz_app/quiz.csv", mode="w", newline='') as quiz_file:
+
+        print("writing csv file")
+
+        quiz_writer = csv.writer(quiz_file, delimiter=';', quotechar='"',quoting=csv.QUOTE_MINIMAL)
+
+        if mc_q_list:
+            for q in range(len(mc_q_list)):
+                quiz_writer.writerow(["mc_q%d"%(q+1), mc_q_list[q], mc_c1_list[q], mc_c2_list[q], mc_c3_list[q], mc_c4_list[q], mc_ans_list[q]])
+
+        if tf_q_list:
+            for q in range(len(tf_q_list)):
+                quiz_writer.writerow(["tf_q%d"%(q+1), tf_q_list[q], tf_ans_list[q]])
+
+        if fib_q_list:
+            for q in range(len(fib_q_list)):
+                quiz_writer.writerow(["fib_q%d"%(q+1), fib_q_list[q], fib_ans_list[q]])
+        
+       # curr_time = datetime.now().strftime("%c")    
+       # return send_file("quiz.csv", attachment_filename="quiz_%s.csv"%(curr_time))
+
+    return redirect(url_for('home'))
     

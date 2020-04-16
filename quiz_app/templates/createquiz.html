@@ -7,36 +7,39 @@
     <div class="col-md-6">
         <form method="POST" action="">
             <fieldset class="form-group">
-                <h2 class="text-center">Multiple Choice Questions</h2> 
-                <br>
-                <div class="form-group">
-                    {% for q in range(mc_num) %}  
-                    
-                        <h4> Question {{ q+1 }} </h4>
-
-                        {{ form.mc.question.label(class="form-control-label") }}
-                        {{ form.mc.question(class="form-control form-control-lg") }}
+                {% if mc_num > 0 %}
+                    <h2 class="text-center">Multiple Choice Questions</h2> 
+                    <br>
+                    <div class="form-group">
+                        {% for q in range(mc_num) %}  
                         
-                        <br>
-                        {{ form.mc.c1.label(class="form-control-label") }}
-                        {{ form.mc.c1(class="form-control form-control-lg") }}
-                        <br>
-                        {{ form.mc.c2.label(class="form-control-label") }}
-                        {{ form.mc.c2(class="form-control form-control-lg") }}
-                        <br>
-                        {{ form.mc.c3.label(class="form-control-label") }}
-                        {{ form.mc.c3(class="form-control form-control-lg") }}
-                        <br>
-                        {{ form.mc.c4.label(class="form-control-label") }}
-                        {{ form.mc.c4(class="form-control form-control-lg") }}
-                        <br>
-                        {{ form.mc.answer.label(class="form-control-label") }}
-                        {{ form.mc.answer(class="form-control form-control-lg") }}
-                        <br>
-                        <hr>
-                    {% endfor %} 
-                </div> 
+                            <h4> Question {{ q+1 }} </h4>
 
+                            {{ form.mc.question.label(class="form-control-label") }}
+                            {{ form.mc.question(class="form-control form-control-lg") }}
+                            
+                            <br>
+                            {{ form.mc.c1.label(class="form-control-label") }}
+                            {{ form.mc.c1(class="form-control form-control-lg") }}
+                            <br>
+                            {{ form.mc.c2.label(class="form-control-label") }}
+                            {{ form.mc.c2(class="form-control form-control-lg") }}
+                            <br>
+                            {{ form.mc.c3.label(class="form-control-label") }}
+                            {{ form.mc.c3(class="form-control form-control-lg") }}
+                            <br>
+                            {{ form.mc.c4.label(class="form-control-label") }}
+                            {{ form.mc.c4(class="form-control form-control-lg") }}
+                            <br>
+                            {{ form.mc.answer.label(class="form-control-label") }}
+                            {{ form.mc.answer(class="form-control form-control-lg") }}
+                            <br>
+                            <hr>
+                        {% endfor %} 
+                </div> 
+                {% endif %}
+
+                {% if tf_num > 0 %}
                 <h2 class="text-center">True False Questions</h2>  
                 <br>
                 <div class="form-group">
@@ -53,7 +56,10 @@
                         <hr>
                     {% endfor %} 
                 </div>
+                {% endif %}
                 <br>
+
+                {% if fib_num > 0 %}
                 <h2 class="text-center">Fill In The Blank Questions</h2>  
                 <br>
                 <div class="form-group">
@@ -72,7 +78,7 @@
                 
                 </div>
                 <br>
-            
+            {% endif %}
             <div class="form-group text-center"> 
                 {{ form.submit(class="btn btn-primary") }} 
 
