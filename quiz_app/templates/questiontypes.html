@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="row">
+	<div class="col-md-3 "></div>
+	<div class="col-md-6">
+		<h1 class="text-center"> Choose How Many Questions </h1>
+
+		<hr>
+
+		<form method="POST" action="">
+			<fieldset class="form-group text-center">
+				<div class="form-group">
+					{{ form.multiple_choice.label }} <br>
+					{{ form.multiple_choice(size=25) }}
+				</div>
+				<div class="form-group">
+					{{ form.true_false.label }} <br>
+					{{ form.true_false(size=25) }}
+				</div>
+				<div class="form-group">
+					{{ form.fill_in_blank.label }} <br>
+					{{ form.fill_in_blank(size=25) }}
+				</div>
+				<br>
+				<div class="form-group text-center">
+					{{ form.submit(class="btn btn-primary") }}
+				</div>
+
+			</fieldset>
+		</form>
+	</div>
+
+	{% endblock content %}
