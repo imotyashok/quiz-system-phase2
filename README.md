@@ -35,3 +35,6 @@ _NOTE:_ depending on how you installed Python on your machine, you might have to
     {% endblock content %}
     ```
     This is Jinja2, a templating language for python. The first line connects directly with the layout.html file, from which each page   will inherit the layout and styling. The _{% block content %}_ stuff attaches directly to the body of the layout.html file. 
+    
+4. Browser caching messes up Quiz Download 
+    This is kind of an interesting one, and was the source of countless hours of frustration. It turns out that you can make and save the quiz once without a problem... but if you try to save it again, it'll just give you the previous file that was generated earlier. This is because for some reason, the file is stored in the browser cache, so when the Flask app makes a call to download the file, it retrieves the old file stored in the cache rather than the new file. This isn't a problem when you use the browser on incognito mode, since your cache isn't stored. I'm not sure if this is just a Google Chrome issue, and I'm not sure how to resolve this problem.     
