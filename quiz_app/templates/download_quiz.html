@@ -6,37 +6,54 @@
     <meta http-equiv="Pragma" content="no-cache" />
 
     <style>
-        ul   {text-align: center;}
-        li   {display: inline;}
+        ul  {
+                display: table-header-group;
+                text-align: center;    
+            }
+        li  {display: inline;
+             text-decoration: none;
+            }
+        a   {text-decoration: none;}
+        button  {cursor: pointer;}
+        .buttonList {display: inline; }
     </style>
          
 </head>
 
 <div class="row">
     <div class="col-md-3 "> </div>
-    <div class="col-md-6">
+    <div class="col-md-6 text-center">
         <h1 class="text-center"> Your quiz has been saved! </h1>
+        <hr>
+            <img src="../static/flower_branch.png" class="img-responsive" width= "100%" style="transform: rotateY(180deg);">
+
         <hr>
         <h5 class="text-center text-muted"> You can choose to download it or to go back and edit your quiz. </h5>
         <br>
-        <div>
+        <div class="buttonList">
             <ul >
                 <li >
                     <a onclick="history.back()">
                         <button class='btn btn-primary' style="display: inline-block"> Back </button>
                     </a>
                 </li>
-
+       
+                <li style="padding: 1.25em;">
+                    <img src="../static/tiny_flower.png" >
+                </li>
                 <li >
                     <a href=" {{ url_for('return_file') }} " target="blank">
-                        <button class='btn btn-primary btn-change' style="display: inline-block"> Download Quiz
+                        <button class='btn btn-primary btn-lg bg-success' style="display: inline-block"> Download Quiz
                         </button>
                     </a>
                 </li>
-
+                
+                <li style="padding: 1.25em;">
+                        <img src="../static/tiny_flower.png" >
+                </li>
                 <li >
 
-                    <a href=" {{ url_for('home') }} " target="blank">
+                    <a href=" {{ url_for('home') }} " >
                         <button class='btn btn-primary' style="display: inline-block"> Home </button>
                     </a>
                 </li>
@@ -48,27 +65,5 @@
         <hr>
     </div>
 </div>
-
-<!--<div class="row">
-    <div class="col-md-3 "> </div>
-
-    <div class="col-md-2 ">
-        <a onclick="history.back()">
-            <button class='btn btn-primary'> Back </button>
-        </a>
-    </div>
-
-    <div class="col-md-2 ">
-        <a href=" {{ url_for('return_file') }} " target="blank">
-            <button class='btn btn-primary btn-change'> Download Quiz </button>
-        </a>
-    </div>
-
-    <div class="col-md-2 text-right">
-        <a href=" {{ url_for('home') }} " target="blank">
-            <button class='btn btn-primary'> Home </button>
-        </a>
-    </div>
-</div> -->
 
 {% endblock content %}
