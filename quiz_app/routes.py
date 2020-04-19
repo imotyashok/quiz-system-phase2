@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, send_file, send_from_directory, Response 
+from flask import render_template, request, redirect, url_for, send_file, send_from_directory, flash 
 from quiz_app import app
 from quiz_app.forms import *
 
@@ -120,8 +120,15 @@ def create_file(form):
             for q in range(len(fib_q_list)):
                 quiz_writer.writerow(["fib_q%d"%(q+1), fib_q_list[q], fib_ans_list[q]])
         
-        #curr_time = datetime.now().strftime("%c")    
-        #return send_file(quiz_file, mimetype="text/csv", attachment_filename="quiz_%s.csv"%(curr_time))
+    curr_time = datetime.now().strftime("%c")    
+    print(curr_time)
+
+    FILEPATH = 'static/quiz.csv'
+
+    #return send_from_directory(app.config["QUIZ_FILE"], "quiz_%s.csv"%(curr_time), as_attachment=True)
+   
+   # THE NEXT LINE IS GOOD 
+   # return send_file('static/quiz.csv', mimetype='text/csv', attachment_filename='quiz_04152020.csv', as_attachment=True)
 
     return redirect(url_for('download_quiz'))
    # return redirect(url_for('home'))
@@ -132,13 +139,22 @@ def download_quiz():
 
 @app.route("/return_file")
 def return_file():
+    FILEPATH = 'static/quiz.csv'
     #csv_f = open('static/quiz.csv', 'r')
     #returnfile = csv_f.read().encode('latin-1')
     #csv_f.close()
 
     #return Response(returnfile, mimetype="text/csv", headers={"Content-disposition":"attachment; filename=quiz_test.csv"})
 
-    return send_file('static/quiz.csv', mimetype='text/csv', attachment_filename='quiz_04152020.csv')
+    #return send_file('static/quiz.csv', mimetype='text/csv', attachment_filename='quiz_04152020.csv')
     
     # return send_from_directory('C:/Users/iryna/quiz-system-phase2/quiz_app/static/flower_branch.png', 'branch.png', as_attachment=True, cache_timeout=0)
     
+    curr_time = datetime.now().strftime("%m-%d-%Y_%H-%M")
+    attach_name = 'quiz_'+curr_time+'.csv'
+
+    print(attach_name)
+
+    flash("Your quiz has been downloaded!", 'success')
+
+    return send_file(FILEPATH, mimetype='text/csv', attachment_filename=attach_name, as_attachment=True, cache_timeout=1)
