@@ -9,6 +9,10 @@
     
     <link rel="stylesheet" href="{{ url_for('static', filename='custom_css_bootstrap.css') }}">
 
+    <style>
+      button  {cursor: pointer;}
+    </style>
+
     {% if title %}
         <title>Quiz App - {{ title }}</title>
     {% else %}
