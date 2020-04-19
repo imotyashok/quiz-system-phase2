@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="row">
+	<div class="col-md-4 ">  
+		<img src=" {{ url_for('static', filename='sakura.png') }} " class="img-responsive" width="100%"/>
+	</div>
+	<div class="col-md-4">
+		<h1 class="text-center"> Choose How Many Questions </h1>
+
+		<hr>
+
+		<form method="POST" action="">
+			<fieldset class="form-group text-center">
+				<div class="form-group">
+					{{ form.multiple_choice.label }} <br>
+					{{ form.multiple_choice(size=25) }}
+				</div>
+				<div class="form-group">
+					{{ form.true_false.label }} <br>
+					{{ form.true_false(size=25) }}
+				</div>
+				<div class="form-group">
+					{{ form.fill_in_blank.label }} <br>
+					{{ form.fill_in_blank(size=25) }}
+				</div>
+				<br>
+				<div class="form-group text-center">
+					{{ form.submit(class="btn btn-primary") }}
+				</div>
+
+			</fieldset>
+		</form>
+	</div>
+
+	<div class="col-md-4 ">  
+		<img src=" {{ url_for('static', filename='sakura.png') }} " class="img-responsive" width="100%" style="transform: rotateY(180deg);"/>
+	</div>
+
+	{% endblock content %}
