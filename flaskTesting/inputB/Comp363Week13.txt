@@ -1,0 +1,11 @@
+Google maps uses Dijkstra's algorithm to find shortest paths to destinations.
+I chose this example because it's perhaps the most practical and direct use of this algorithm.
+It is used to compare weights between streets to find the shortest set of streets to take. It also performs the algorithm again from each node in case a change has been made.
+It has been modified to take in real-time traffic updates, which means that the weights of the edges are subject to change and it has to readjust as needed.
+Theoretically, given the graph like nature of maps, any shortest-path algorithm could work. A* search for instance could also work since it uses heuristics.
+
+The second example is IP routing.
+I chose this one as the internet has been on my mind moreso than usual lately given we're all stuck inside.
+It, much like the google example, compares "distance" between various nodes which lie between a computer and the target it's trying to communicate with. In this case though, physical distance is less relevant than time differences.
+The main adjustment made to deal with IP stuff is the broken down nature of what's being sent. Thus it could be true that one peice goes one way and another a different way.
+Like with Google maps, almost any other algorithm could work. Soemthing like Floyd-Warshall could be switched out since it is similar but handles dense graphs very well.
