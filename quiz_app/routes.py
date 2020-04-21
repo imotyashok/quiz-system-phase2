@@ -24,6 +24,29 @@ def makequiz():
 def takequiz():
     return render_template('takequiz.html', title='Take a Quiz')
     
+@app.route("/joinLobby", methods=['GET', 'POST'])
+def joinLobby():
+    form = QuestionTypesForm()
+    return render_template('joinLobby.html', title='Join a quiz')
+    
+@app.route("/hostLobby", methods=['GET', 'POST'])
+def hostLobby():
+    form = QuestionTypesForm()
+    return render_template('hostLobby.html', title='Host a Quiz')
+
+@app.route("/hostPage", methods=['GET', 'POST'])
+def hostPage():
+    return render_template('hostPage.html', title='Hosting a Quiz')
+    
+#teacher result page
+@app.route("/resultPageH", methods=['GET', 'POST'])
+def resultPageT():
+    return render_template('resultPageH.html', title='Hosting a Quiz')
+#student result page
+@app.route("/resultPageS", methods=['GET', 'POST'])
+def resultPageS():
+    return render_template('resultPageS.html', title='Hosting a Quiz')
+    
 @app.route("/questiontypes", methods=['GET', 'POST']) 
 def questiontypes():
     # This function gets and returns the results of the QuestionTypesForm, which asks users 
