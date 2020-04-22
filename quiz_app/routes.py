@@ -6,6 +6,10 @@ from quiz_app.forms import *
 
 from datetime import datetime
 import csv
+import json
+
+clients = []
+host_id = None
 
 
 @app.route("/")
@@ -173,15 +177,40 @@ def return_file():
 
 
 @app.route("/host_quiz")
-def sessions():
+def host_quiz():
     return render_template('host_quiz.html')
 
 
-def scoreReceived(methods=['GET', 'POST']):
-    print('score was recieved')
+@app.route("/find_quiz")
+def find_quiz():
+    return render_template('find_quiz.html')
 
 
-@socketio.on('my event')
-def handle_my_custom_event(json, methods=['GET', 'POST']):
-    print('received my event: ' + str(json))
-    socketio.emit('my response', json, callback=scoreReceived)
+@socketio.on('connect')
+def test_connect():
+    print('User connected')
+
+
+@socketio.on('host_connect')
+def host_connect():
+    print('Host connected')
+    socketio.emit('host_connect')
+
+
+@socketio.on('client_connect')
+def client_connect():
+    print('Client connected')
+    clients.append(request.sid)
+
+
+@socketio.on('disconnect')
+def test_disconnect():
+    print('Client disconnected')
+    clients.remove(request.sid)
+
+
+@socketio.on('start_quiz')
+def start_quiz(quiz_json):
+    socketio.emit('quiz_start', quiz_json)
+
+
