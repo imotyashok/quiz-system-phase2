@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <div class="row">
+
+          <div class="col-md-3 ">
+
+          </div>
+          <div class="col-md-6">
+              <h1 class="text-center" style="padding-bottom: 30px;">Host a lobby </h1>
+              <div class="host_buttons">
+                  <form action="" method="POST" style="padding-top: 10px; padding-bottom: 10px">
+                      <input type="submit" value="Begin Hosting" class="btn btn-primary btn-lg btn-block" style="background-color: rgb(128, 36, 114)"/>
+                  </form>
+              </div>
+
+              <button type="button" class="btn btn-primary btn-lg btn-block"
+                style="background-color: rgb(128, 36, 114)" onclick="window.location.href = 'takequiz';">
+                Go Back
+              </button>
+
+
+            </div>
+          </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+    <script type="text/javascript">
+      var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+      socket.on( 'connect', function() {
+        $( 'form' ).on( 'submit', function( e ) {
+            e.preventDefault()
+            socket.emit( 'host_connect')
+            $( 'div.host_buttons' ).append( '<div><form action="" method="POST" style="padding-top: 10px; padding-bottom: 10px"><input type="submit" value="Start Quiz" class="btn btn-primary btn-lg btn-block" style="background-color: rgb(128, 36, 114)"/></form></div>' )
+            $( 'form' ).on( 'submit', function( e ) {
+                e.preventDefault()
+                socket.emit( 'start_quiz', {
+                    quiz_json: JSON.parse('{ "name":"John", "age":30, "city":"New York"}')
+                })
+            } )
+        } )
+      } )
+    </script>
+
+
+{% endblock content %}
