@@ -3,7 +3,8 @@ from quiz_app import app
 from quiz_app.forms import *
 
 from datetime import datetime
-import csv
+#import csv
+import json
 
 
 @app.route("/")
@@ -112,18 +113,40 @@ def create_file(form):
 
     q_dict = dict()
 
-    # NOTE: 'q_dict' is a dictionary of questions that follows the following format:
-        #    question-type_question-number : ('question', 'option1', 'option2', 'answer')
+    if mc_q_list:
+        mc_dict = dict()
+        for q in range(len(mc_q_list)):
+            mc_dict["q%d"%(q+1)] = [mc_q_list[q], mc_c1_list[q], mc_c2_list[q], mc_c3_list[q], mc_c4_list[q], mc_ans_list[q]]      
+        q_dict["mc"] = mc_dict
 
-        # Here is an example of an output from the form: 
-        # { 'mc_q1': ('What color is a banana?', 'Purple', 'Green', 'Yellow', 'Red', 'c'), 
-        #   'mc_q2': ('How many hands does a human have?', '0', '2', '3', '4', 'b'), 
-        #   'tf_q1': ('Computer mice are mammals. ', 'f'), 'tf_q2': ('Water is a liquid. ', 't'), 
-        #   'fib_q1': ('The best OS is', 'Linux'), 'fib_q2': ('My name is ', 'Slim Shady')}
-        # I'm not even sure this dictionary will be useful yet, but hey, it exists! 
+    if tf_q_list:
+        tf_dict = dict()
+        for q in range(len(tf_q_list)):
+            tf_dict["q%d"%(q+1)] = [tf_q_list[q], tf_ans_list[q]]
+        q_dict["tf"] = tf_dict
+    
+    if fib_q_list:
+        fib_dict = dict()
+        for q in range(len(fib_q_list)):
+            fib_dict["q%d"%(q+1)] = [fib_q_list[q], fib_ans_list[q]]
+        q_dict["fib"] = fib_dict
 
-    # TODO: implement a function that takes this q_dict and downloads this file to the user's computer
-    # in some sort of format (CSV?)
+    
+    """ # NOTE: 'q_dict' is a dictionary of questions that follows the following format:
+        #    question-type: { question-number : ['question', 'option1', 'option2', 'answer'] }
+        # 
+        # Here's an example output:
+        # { 'mc': {
+                'q1': ['What color is a banana?', 'Purple', 'Green', 'Yellow', 'Red', 'c']
+                }, 
+            'tf': {
+                'q1': ['Computer mice are mammals. ', 'f'], 
+                'q2': ['Today is Wednesday.', 't']
+                }, 
+            'fib': {
+                'q1': ['The best OS is', 'Linux']
+                }
+            }
 
     with open("quiz_app/static/quiz.csv", mode="w", newline='') as quiz_file:
 
@@ -142,19 +165,17 @@ def create_file(form):
         if fib_q_list:
             for q in range(len(fib_q_list)):
                 quiz_writer.writerow(["fib_q%d"%(q+1), fib_q_list[q], fib_ans_list[q]])
-        
-    curr_time = datetime.now().strftime("%c")    
-    print(curr_time)
 
-    FILEPATH = 'static/quiz.csv'
-
-    #return send_from_directory(app.config["QUIZ_FILE"], "quiz_%s.csv"%(curr_time), as_attachment=True)
+    FILEPATH = 'static/quiz.csv' """
    
    # THE NEXT LINE IS GOOD 
    # return send_file('static/quiz.csv', mimetype='text/csv', attachment_filename='quiz_04152020.csv', as_attachment=True)
 
+    with open('quiz_app/static/quiz.json', 'w') as f:
+        json.dump(q_dict, f)
+
     return redirect(url_for('download_quiz'))
-   # return redirect(url_for('home'))
+
 
 @app.route("/download_quiz")
 def download_quiz():
@@ -162,22 +183,14 @@ def download_quiz():
 
 @app.route("/return_file")
 def return_file():
-    FILEPATH = 'static/quiz.csv'
-    #csv_f = open('static/quiz.csv', 'r')
-    #returnfile = csv_f.read().encode('latin-1')
-    #csv_f.close()
 
-    #return Response(returnfile, mimetype="text/csv", headers={"Content-disposition":"attachment; filename=quiz_test.csv"})
+    FILEPATH = 'static/quiz.json'
 
-    #return send_file('static/quiz.csv', mimetype='text/csv', attachment_filename='quiz_04152020.csv')
-    
-    # return send_from_directory('C:/Users/iryna/quiz-system-phase2/quiz_app/static/flower_branch.png', 'branch.png', as_attachment=True, cache_timeout=0)
-    
     curr_time = datetime.now().strftime("%m-%d-%Y_%H-%M")
-    attach_name = 'quiz_'+curr_time+'.csv'
+    attach_name = 'quiz_'+curr_time+'.json'
 
     print(attach_name)
 
     flash("Your quiz has been downloaded!", 'success')
 
-    return send_file(FILEPATH, mimetype='text/csv', attachment_filename=attach_name, as_attachment=True, cache_timeout=1)
+    return send_file(FILEPATH, attachment_filename=attach_name, as_attachment=True, cache_timeout=0)
